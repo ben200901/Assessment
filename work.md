@@ -93,7 +93,7 @@ server {
     }
 }
 
-#Sets configuration for a virtual server#
+#Sets configuration for a virtual server /#
 server {
 
 	# sets the port 10806 for IP and accept on this port work in SSL mode on which the server will accept requests.
