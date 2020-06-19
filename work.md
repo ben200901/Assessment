@@ -141,13 +141,13 @@ server {
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection $connection_upgrade;
 		#set the host to server name
-		#	
+		#
         proxy_set_header Host $host;
 		#X-Real-IP contains the original IP of the client, which can be captured by $remote_addr
 		#
         proxy_set_header X-Real-IP $remote_addr;
 		#X-Forwarded-For represents the IP marked in the client header, it can be captured by $ proxy_add_x_forward_for, if the header does not have X-Forwarded-For then it is the same as $ remoter_addr
-		#	
+		#
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 		#Configure automatic protocol acquisition method, the client can use http or https protocol
 		#
