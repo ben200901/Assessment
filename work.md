@@ -1,4 +1,5 @@
-#According to the value of $http_upgrade, construct and change the value of $connection_upgrade#
+# According to the value of $http_upgrade, construct and change the value of $connection_upgrade
+#
 map $http_upgrade $connection_upgrade {
     default upgrade;
     '' close;
