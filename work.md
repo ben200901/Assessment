@@ -1,4 +1,4 @@
-# according to the value of $http_upgrade, construct and change the value of $connection_upgrade.The value of $connection_upgrade is upgrade.If $http_upgrade is an empty string, the value is 'close'.
+# according to the value of $http_upgrade, construct and change the value of $connection_upgrade.The value of $connection_upgrade is 'upgrade.If $http_upgrade is an empty string, the value is 'close'.
 #
 map $http_upgrade $connection_upgrade {
     default upgrade;
@@ -38,10 +38,10 @@ server {
 	#
     charset     utf-8;
 
-	# use log_format main to set the log message format and storage path of the log file to /var/log/nginx/logics_access.log
+	# access log storage path and use log_format main
 	#
     access_log  /var/log/nginx/logics_access.log main;
-	# The logged error message configuration is set to warn . It records messages of warn, error crit, alert, and emerg levels.The error log store to /var/log/nginx/logics_error.log
+	# error log storage path and warn level . It records messages of warn, error crit, alert, and emerg levels.
 	#
     error_log   /var/log/nginx/logics_error.log warn;
 	
@@ -110,10 +110,10 @@ server {
 	#
     charset     utf-8;
 
-	# use log_format main to set the log message format and storage path of the log to /var/log/nginx/logics_access.log
+	# access log storage path and use log_format main
 	#
     access_log  /var/log/nginx/logics1_access.log main;
-	# The logged error message configuration is set to warn . It records messages of warn, error crit, alert, and emerg levels.The error log store to /var/log/nginx/logics_error.log
+	# error log storage path and warn level . It records messages of warn, error crit, alert, and emerg levels.
 	#
     error_log   /var/log/nginx/logics1_error.log warn;
 	
