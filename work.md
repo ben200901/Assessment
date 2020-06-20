@@ -1,4 +1,4 @@
-# According to the value of $http_upgrade, construct and change the value of $connection_upgrade
+# according to the value of $http_upgrade, construct and change the value of $connection_upgrade.The value of $connection_upgrade is upgrade.If $http_upgrade is an empty string, the value is 'close'.
 #
 map $http_upgrade $connection_upgrade {
     default upgrade;
@@ -15,7 +15,7 @@ upstream ws_entry {
     server 10.1.206.67:10805;
 }
 
-#set up an upstream context called ws_gate , this name will be available for use within proxy passes.
+# set up an upstream context called ws_gate , this name will be available for use within proxy passes.
 #
 upstream ws_gate {
 
@@ -23,7 +23,8 @@ upstream ws_gate {
 	#
     server 10.1.206.67:10806;
 }
-#Sets configuration for a virtual server#
+#Sets configuration for a virtual server
+#
 server {
 
 	# sets the port 10805 for IP and accept on this port work in SSL mode on which the server will accept requests.
@@ -37,51 +38,51 @@ server {
 	#
     charset     utf-8;
 
-	#use log_format main to set the log message format and storage path of the log file to /var/log/nginx/logics_access.log
+	# use log_format main to set the log message format and storage path of the log file to /var/log/nginx/logics_access.log
 	#
     access_log  /var/log/nginx/logics_access.log main;
-	#The logged error message configuration is set to warn . It records messages of warn, error crit, alert, and emerg levels.The error log store to /var/log/nginx/logics_error.log
+	# The logged error message configuration is set to warn . It records messages of warn, error crit, alert, and emerg levels.The error log store to /var/log/nginx/logics_error.log
 	#
     error_log   /var/log/nginx/logics_error.log warn;
 	
-	#provide the PEM format certificate to virtual server in /etc/nginx/ssl/fullchain.pem 
+	# provide the PEM format certificate to virtual server in /etc/nginx/ssl/fullchain.pem 
 	#
     ssl_certificate      /etc/nginx/ssl/fullchain.pem;
-	#provide the PEM format secret key to the virtual server in /etc/nginx/ssl/privkey.pem
+	# provide the PEM format secret key to the virtual server in /etc/nginx/ssl/privkey.pem
 	#
     ssl_certificate_key  /etc/nginx/ssl/privkey.pem;
 	#enables the specified protocols TLSv1.2
 	#
     ssl_protocols TLSv1.2;
-	#Specifies that server ciphers should be preferred over client ciphers
+	# specifies that server ciphers should be preferred over client ciphers
 	#
     ssl_prefer_server_ciphers on;
-	#Specifies the enabled ciphers
+	# specifies the enabled ciphers
 	#
     ssl_ciphers "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384";
 
-##Sets configuration for location match /#
+# sets configuration for location match /
 #
     location / {
-		#Request forwarded to upstream ws_entry IP address
+		# request proxy forwarded to upstream ws_entry 
 		#
         proxy_pass http://ws_entry;
-		#request server upgrade protocol to WebSocket
+
+		# upgrade http1.1 to websocket protocol
 		#
         proxy_http_version 1.1;
+		# request server upgrade protocol to WebSocket
+		#
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection $connection_upgrade;
-
-		#set the host to server name
-		#
         proxy_set_header Host $host;
-		#X-Real-IP contains the original IP of the client, which can be captured by $remote_addr
+		# X-Real-IP contains the original IP of the client, which can be captured by $remote_addr
 		#
         proxy_set_header X-Real-IP $remote_addr;
-		#X-Forwarded-For represents the IP marked in the client header, it can be captured by $ proxy_add_x_forward_for, if the header does not have X-Forwarded-For then it is the same as $ remoter_addr
+		# X-Forwarded-For represents the IP marked in the client header, it can be captured by $ proxy_add_x_forward_for, if the header does not have X-Forwarded-For then it is the same as $ remoter_addr
 		#	
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-		#Configure automatic protocol acquisition method, the client can use http or https protocol
+		# configure automatic protocol acquisition method, the client can use http or https protocol
 		#
         proxy_set_header X-Forwarded-Proto $scheme;
     }
@@ -94,7 +95,8 @@ server {
     }
 }
 
-#Sets configuration for a virtual server /#
+#Sets configuration for a virtual server
+#
 server {
 
 	# sets the port 10806 for IP and accept on this port work in SSL mode on which the server will accept requests.
@@ -108,51 +110,50 @@ server {
 	#
     charset     utf-8;
 
-	#use log_format main to set the log message format and storage path of the log to /var/log/nginx/logics_access.log
+	# use log_format main to set the log message format and storage path of the log to /var/log/nginx/logics_access.log
 	#
     access_log  /var/log/nginx/logics1_access.log main;
-	#The logged error message configuration is set to warn . It records messages of warn, error crit, alert, and emerg levels.The error log store to /var/log/nginx/logics_error.log
+	# The logged error message configuration is set to warn . It records messages of warn, error crit, alert, and emerg levels.The error log store to /var/log/nginx/logics_error.log
 	#
     error_log   /var/log/nginx/logics1_error.log warn;
 	
-	#provide the PEM format certificate to virtual server in /etc/nginx/ssl/fullchain.pem 
+	# provide the PEM format certificate to virtual server in /etc/nginx/ssl/fullchain.pem 
 	#
     ssl_certificate      /etc/nginx/ssl/fullchain.pem;
-	#provide the PEM format secret key to the virtual server in /etc/nginx/ssl/privkey.pem
+	# provide the PEM format secret key to the virtual server in /etc/nginx/ssl/privkey.pem
 	#
     ssl_certificate_key  /etc/nginx/ssl/privkey.pem;
 	
-	#enables the specified protocols TLSv1.2
+	# enables the specified protocols TLSv1.2
 	#
     ssl_protocols TLSv1.2;
-	#Specifies that server ciphers should be preferred over client ciphers
+	# specifies that server ciphers should be preferred over client ciphers
 	#
     ssl_prefer_server_ciphers on;
 	#Specifies the enabled ciphers
 	#
     ssl_ciphers "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384";
 
-##Sets configuration for location match /#
+# sets configuration for location match /
 #
     location / {
-		#Request forwarded to upstream ws_gate IP address
+		# request proxy forwarded to upstream ws_gate 
 		#
         proxy_pass http://ws_gate;
-		#To turn a connection between a client and server from HTTP/1.1 into WebSocket
+		# To turn a connection between a client and server from HTTP/1.1 into WebSocket
 		#
+
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection $connection_upgrade;
-		#set the host to server name
-		#
         proxy_set_header Host $host;
-		#X-Real-IP contains the original IP of the client, which can be captured by $remote_addr
+		# X-Real-IP contains the original IP of the client, which can be captured by $remote_addr
 		#
         proxy_set_header X-Real-IP $remote_addr;
-		#X-Forwarded-For represents the IP marked in the client header, it can be captured by $ proxy_add_x_forward_for, if the header does not have X-Forwarded-For then it is the same as $ remoter_addr
+		# X-Forwarded-For represents the IP marked in the client header, it can be captured by $ proxy_add_x_forward_for, if the header does not have X-Forwarded-For then it is the same as $ remoter_addr
 		#
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-		#Configure automatic protocol acquisition method, the client can use http or https protocol
+		# configure automatic protocol acquisition method, the client can use http or https protocol
 		#
         proxy_set_header X-Forwarded-Proto $scheme;
     }
