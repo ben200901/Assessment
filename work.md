@@ -23,6 +23,7 @@ upstream ws_gate {
 	#
     server 10.1.206.67:10806;
 }
+
 #Sets configuration for a virtual server
 #
 server {
@@ -95,8 +96,7 @@ server {
     }
 }
 
-#Sets configuration for a virtual server
-#https service
+#Sets configuration for a virtual server,https service
 #
 server {
 
@@ -141,9 +141,9 @@ server {
 		# request proxy forwarded to upstream ws_gate 
 		#
         proxy_pass http://ws_gate;
+
 		# To turn a connection between a client and server from HTTP/1.1 into WebSocket
 		#
-
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection $connection_upgrade;
