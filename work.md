@@ -1,4 +1,4 @@
-# according to the value of $http_upgrade, construct and change the value of $connection_upgrade.The value of $connection_upgrade is 'upgrade.If $http_upgrade is an empty string, the value is 'close'.
+# according to the value of $http_upgrade, construct and change the value of $connection_upgrade.The value of $connection_upgrade default is 'upgrade.If $http_upgrade is an empty string, the value is 'close'.
 #
 map $http_upgrade $connection_upgrade {
     default upgrade;
@@ -6,7 +6,7 @@ map $http_upgrade $connection_upgrade {
 }
 
 
-# set up an upstream context called ws_entry , this name will be available for use within proxy passes.
+# set up an upstream context called ws_entry , define groups of servers that can be referenced by the proxy_pass, fastcgi_pass, uwsgi_pass, scgi_pass, memcached_pass, and grpc_pass directives.
 #
 upstream ws_entry {
 	
@@ -15,7 +15,7 @@ upstream ws_entry {
     server 10.1.206.67:10805;
 }
 
-# set up an upstream context called ws_gate , this name will be available for use within proxy passes.
+# set up an upstream context called ws_entry , define groups of servers that can be referenced by the proxy_pass, fastcgi_pass, uwsgi_pass, scgi_pass, memcached_pass, and grpc_pass directives.
 #
 upstream ws_gate {
 
@@ -41,7 +41,7 @@ server {
 	# access log storage path and use log_format main
 	#
     access_log  /var/log/nginx/logics_access.log main;
-	# error log storage path and warn level . It records messages of warn, error crit, alert, and emerg levels.
+	# error log storage path and warn level . It records messages of warn, error crit, alert, and emerg levels message.
 	#
     error_log   /var/log/nginx/logics_error.log warn;
 	
@@ -61,7 +61,7 @@ server {
 	#
     ssl_ciphers "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384";
 
-# sets configuration for location match /
+# sets configuration for location. universal matching, any request will match
 #
     location / {
 		# request proxy forwarded to upstream ws_entry 
@@ -114,7 +114,7 @@ server {
 	# access log storage path and use log_format main
 	#
     access_log  /var/log/nginx/logics1_access.log main;
-	# error log storage path and warn level . It records messages of warn, error crit, alert, and emerg levels.
+	# error log storage path and warn level . It records messages of warn, error crit, alert, and emerg levels message.
 	#
     error_log   /var/log/nginx/logics1_error.log warn;
 	
@@ -135,7 +135,7 @@ server {
 	#
     ssl_ciphers "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384";
 
-# sets configuration for reverse proxy
+# sets configuration for location. universal matching, any request will match
 #
     location / {
 		# request proxy forwarded to upstream ws_gate 
