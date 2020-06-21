@@ -96,6 +96,7 @@ server {
 }
 
 #Sets configuration for a virtual server
+#https service
 #
 server {
 
@@ -134,7 +135,7 @@ server {
 	#
     ssl_ciphers "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384";
 
-# sets configuration for location match /
+# sets configuration for reverse proxy
 #
     location / {
 		# request proxy forwarded to upstream ws_gate 
